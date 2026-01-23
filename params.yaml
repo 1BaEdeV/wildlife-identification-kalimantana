@@ -1,5 +1,5 @@
 prepare:
-  samples_per_class: 80
+  samples_per_class: 30
   source_path: 
     E:\ULTIMATE_PROJECT\wildlife-identification-kamchatka\full_dataset
 
