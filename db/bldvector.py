@@ -29,8 +29,6 @@ dataset_path = r"E:\ULTIMATE_PROJECT\wildlife-identification-kamchatka\full_data
 all_images = []
 all_embeddings = []
 
-print("Начало обработки изображений...")
-
 for species in os.listdir(dataset_path):
     species_path = os.path.join(dataset_path, species)
     if not os.path.isdir(species_path):
@@ -39,16 +37,11 @@ for species in os.listdir(dataset_path):
     # Проверяем наличие папки all_photos
     all_photos_path = os.path.join(species_path, "all_photos")
     if not os.path.exists(all_photos_path):
-        print(f"⚠️ Пропускаем {species}: нет папки all_photos")
-        continue
-    
-    print(f"Обработка {species}...")
-    
+        continue  
     for img_file in os.listdir(all_photos_path):
         if not img_file.lower().endswith(('.jpg', '.jpeg', '.png')):
             continue
-        
-        # ИСПРАВЛЕННЫЙ ПУТЬ
+
         img_path = os.path.join(all_photos_path, img_file)
         
         try:
@@ -60,7 +53,7 @@ for species in os.listdir(dataset_path):
             # Извлечение эмбеддинга
             embedding = model.predict(img_array, verbose=0)[0]
             
-            # Сохраняем
+            # Сохранение
             all_embeddings.append(embedding)
             all_images.append({
                 'path': img_path,
@@ -71,13 +64,10 @@ for species in os.listdir(dataset_path):
         except Exception as e:
             print(f"Ошибка обработки {img_path}: {e}")
 
-# Проверяем, есть ли данные
 if len(all_embeddings) == 0:
-    print("❌ Нет данных для обработки!")
+    print(" Нет данных для обработки!")
     conn.close()
     exit()
-
-print(f"Обработано {len(all_embeddings)} изображений")
 
 # Добавление векторов в FAISS
 if all_embeddings:
@@ -86,7 +76,6 @@ if all_embeddings:
     
     # Сохраняем FAISS индекс
     faiss.write_index(index, 'faiss_index.bin')
-    print("✅ FAISS индекс сохранен")
 
 # Сохранение информации в SQLite
 for i, img_info in enumerate(all_images):
@@ -107,8 +96,3 @@ for i, img_info in enumerate(all_images):
 
 conn.commit()
 conn.close()
-
-print(f"✅ Векторная база данных создана!")
-print(f"   • Изображений: {len(all_images)}")
-print(f"   • FAISS индекс: faiss_index.bin")
-print(f"   • SQLite база: monkey_database.db")
