@@ -1,0 +1,45 @@
+# Исправленная версия - убрать исключения для gitkeep
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Докер файлы (не копировать в контейнер)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Системные файлы
+.git
+.gitignore
+.dvc/
+.dvcignore
+dvc.lock
+dvc.yaml
+*.dvc
+
+# Логи
+*.log
+logs/
+
+# Данные и модели (НЕ исключать - они нужны для работы)
+# !models/
+# !data/
+# !db/
+
+# Кэши и временные файлы
+.ipynb_checkpoints/
+*.ipynb
